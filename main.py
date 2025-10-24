@@ -33,8 +33,8 @@ def translate_codon(codon):
     """翻译密码子为氨基酸"""
     return CODON_TABLE.get(codon.upper(), 'X')
 
-def mutate_sequence(original_seq):
-    """对原始序列进行饱和点突变"""
+def mutate_sequence(original_seq, upstream_adapter="", downstream_adapter=""):
+    """对原始序列进行饱和点突变，并添加上下游适配器"""
     mutations = []
     
     # 确保序列长度是3的倍数
@@ -83,9 +83,13 @@ def mutate_sequence(original_seq):
             mutated_codons[i] = mutated_codon
             mutated_seq = ''.join(mutated_codons)
         
+        # 添加上下游适配器
+        full_mutated_seq = upstream_adapter + mutated_seq + downstream_adapter
+        
         mutations.append({
             'Mutation_Type': mutation_type,
             'Mutated_Sequence': mutated_seq,
+            'Full_Sequence_with_Adapters': full_mutated_seq,
             'Description': description
         })
     
@@ -115,10 +119,26 @@ def main():
         protein_name = str(row.iloc[0])
         dna_sequence = str(row.iloc[1]).upper().replace(' ', '').replace('\n', '')
         
+        # 获取上下游适配器序列（如果存在）
+        upstream_adapter = ""
+        downstream_adapter = ""
+        
+        if df.shape[1] >= 3:
+            upstream_adapter = str(row.iloc[2]) if pd.notna(row.iloc[2]) else ""
+            upstream_adapter = upstream_adapter.upper().replace(' ', '').replace('\n', '')
+        
+        if df.shape[1] >= 4:
+            downstream_adapter = str(row.iloc[3]) if pd.notna(row.iloc[3]) else ""
+            downstream_adapter = downstream_adapter.upper().replace(' ', '').replace('\n', '')
+        
         print(f"Processing protein: {protein_name}, sequence length: {len(dna_sequence)}")
+        if upstream_adapter:
+            print(f"  Upstream adapter: {upstream_adapter} (length: {len(upstream_adapter)})")
+        if downstream_adapter:
+            print(f"  Downstream adapter: {downstream_adapter} (length: {len(downstream_adapter)})")
         
         # 生成突变
-        mutations = mutate_sequence(dna_sequence)
+        mutations = mutate_sequence(dna_sequence, upstream_adapter, downstream_adapter)
         
         if not mutations:
             print(f"Warning: No mutations generated for {protein_name}")
