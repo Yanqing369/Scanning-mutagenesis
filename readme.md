@@ -14,6 +14,9 @@ os
 1.Fill in the protein name, sequence, upstream adapter and downstream adapter information in the table “sequences.xlsx". Format can be found in the example file. You can fill multiple proteins at the same time. Place this file in the same directory as main.py.  
 2.Run the script. You can just open the script in your IDE(VS code, spyder, pycharm...) and click 'run'. Also you can run from the console using this command 'python main.py'  
 3.The mutant sequences will be generated in the same directory. Each protein in the input “sequences.xlsx" will generate a file, storing all mutated sequences. (e.g, MinE protein will generate a new file called 'MinE_mutants.xlsx')
+## Prompts for AI:https://chat.deepseek.com/share/78yv9l46s3zdbqbsrs
+
+
 
 
 # 扫描诱变
@@ -32,4 +35,6 @@ os
 ## 使用方法
 1. 在"sequences.xlsx"表格中填写蛋白质名称、序列、上游接头和下游接头信息。格式请参照示例文件，可同时填写多个蛋白质信息。请将该文件与main.py置于同一目录下。  
 2. 运行脚本。可在IDE（VS code、spyder、pycharm等）中直接打开脚本点击"运行"，也可在控制台中使用命令'python main.py'运行。  
+
 3. 突变序列将在同一目录下生成。输入文件"sequences.xlsx"中的每个蛋白质都会生成一个独立文件，存储所有突变序列（例如：MinE蛋白将生成名为'MinE_mutants.xlsx'的新文件）。
+## AI提示词:https://chat.deepseek.com/share/78yv9l46s3zdbqbsrs
